@@ -19,8 +19,8 @@ const items = await Promise.all(
         <li>
           <article>
             <h3>{item.data.title}</h3>
-            <time datetime={item.data.date.toISOString()}>
-              {item.data.date.toLocaleDateString()}
+            <time datetime={item.data.date.toISOString().slice(0, 10)}>
+              {item.data.date.toISOString().slice(0, 10)}
             </time>
             <div class="md">
               <Content />
