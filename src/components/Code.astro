@@ -1,71 +1,72 @@
-<form action="http://youtu.be/oHg5SJYRHA0">
-  <input type="text" pattern="1" placeholder="0" required size="1" />
-  <input type="text" pattern="2" placeholder="0" required size="1" />
-  <input type="text" pattern="3" placeholder="0" required size="1" />
-  <input type="text" pattern="4" placeholder="0" required size="1" />
-  <button type="submit">git out</button>
+---
+
+---
+
+<form class="code-form">
+  <label for="digit-1" class="visually-hidden">Digit 1</label>
+  <input id="digit-1" type="text" inputmode="numeric" maxlength="1" required />
+
+  <label for="digit-2" class="visually-hidden">Digit 2</label>
+  <input id="digit-2" type="text" inputmode="numeric" maxlength="1" required />
+
+  <label for="digit-3" class="visually-hidden">Digit 3</label>
+  <input id="digit-3" type="text" inputmode="numeric" maxlength="1" required />
+
+  <label for="digit-4" class="visually-hidden">Digit 4</label>
+  <input id="digit-4" type="text" inputmode="numeric" maxlength="1" required />
+
+  <button type="submit">Check code</button>
 </form>
 
-<style>
-  :root {
-    --error: #ff0000;
-    --primary: #000000;
-    --primary-light: #c9c9c9;
-  }
+<p class="code-result" aria-live="polite"></p>
 
-  ::selection {
-    background-color: var(--primary);
-    color: white;
+<script>
+  const SECRET = "6767"; // 👈 hier staat jullie code
+
+  const form = document.querySelector(".code-form");
+  const inputs = [...document.querySelectorAll(".code-form input")];
+  const result = document.querySelector(".code-result");
+
+  // automatisch naar het volgende vakje springen
+  inputs.forEach((input, i) => {
+    input.addEventListener("input", () => {
+      if (input.value && inputs[i + 1]) inputs[i + 1].focus();
+    });
+  });
+
+  form?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const entered = inputs.map((input) => input.value).join("");
+
+    if (entered === SECRET) {
+      result.textContent = "🎉 Correct! You cracked the code!";
+    } else {
+      result.textContent = "❌ Wrong code, keep searching...";
+    }
+  });
+</script>
+
+<style>
+  .code-form {
+    display: flex;
+    gap: var(--sp-m);
+    align-items: center;
   }
 
   input {
-    background: none;
-    border: none;
-    font-size: inherit;
-    font-family: inherit;
-    border-bottom: dashed 1px var(--primary);
+    width: 3rem;
+    height: 3.5rem;
+    font-size: 2rem;
     text-align: center;
+    border: 2px solid var(--color-text);
+    border-radius: var(--br-l);
   }
 
-  input:focus {
-    outline-color: var(--primary);
-  }
-
-  input::placeholder {
-    color: var(--error);
-  }
-
-  form {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    justify-content: center;
-    gap: 0.5em;
-    font-size: 3rem;
-    border: solid 2px var(--primary);
-    padding: 1rem;
-    background-color: var(--primary-light);
-  }
-
-  button {
-    grid-column: 1 / -1;
-    background: var(--primary);
-    border: none;
-    color: white;
-    font-family: inherit;
-    font-size: inherit;
-  }
-
-  button:focus {
-    outline: solid 1px var(--primary);
-  }
-
-  input:invalid {
-    color: var(--error);
-    border-color: var(--error);
-  }
-
-  form:has(:invalid) button {
-    opacity: 0.1;
-    background-color: #ff0000;
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
   }
 </style>
