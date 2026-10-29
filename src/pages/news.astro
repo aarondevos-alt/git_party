@@ -2,7 +2,9 @@
 import Base from "../layouts/Base.astro";
 import { getCollection, render } from "astro:content";
 
-const news = await getCollection("news");
+const news = (await getCollection("news")).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
 const items = await Promise.all(
   news.map(async (item) => ({ item, Content: (await render(item)).Content }))
 );
