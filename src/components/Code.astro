@@ -21,6 +21,8 @@
 <p class="code-result" aria-live="polite"></p>
 
 <script>
+  import virusUrl from "../assets/totallyRealVirus.txt?url";
+
   const SECRET = "6767"; // 👈 hier staat jullie code
 
   const form = document.querySelector(".code-form");
@@ -34,6 +36,14 @@
     });
   });
 
+  // foute code? dan krijg je een "virus" cadeau
+  const downloadVirus = () => {
+    const link = document.createElement("a");
+    link.href = virusUrl;
+    link.download = "totallyRealVirus.txt";
+    link.click();
+  };
+
   form?.addEventListener("submit", (e) => {
     e.preventDefault();
     const entered = inputs.map((input) => input.value).join("");
@@ -42,6 +52,7 @@
       result.textContent = "🎉 Correct! You cracked the code!";
     } else {
       result.textContent = "❌ Wrong code, keep searching...";
+      downloadVirus();
     }
   });
 </script>
