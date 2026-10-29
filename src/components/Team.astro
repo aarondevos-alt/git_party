@@ -30,6 +30,10 @@ const team = await getCollection("team");
   <header>
     <h2><span>Team</span></h2>
     <p>Check these superheroes</p>
+    <button class="secret" type="button" aria-label="Geheim" title="Klik mij... vaak">
+      <span class="secret__hint" aria-hidden="true">?</span>
+      <span class="secret__number" aria-hidden="true">6</span>
+    </button>
   </header>
   <ul>
     {
@@ -49,4 +53,75 @@ const team = await getCollection("team");
     grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
     margin-bottom: var(--sp-xl);
   }
+
+  .secret {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-top: var(--sp-s, 0.5rem);
+    padding: 0;
+    border: 2px dashed currentColor;
+    border-radius: 50%;
+    background: none;
+    color: inherit;
+    font-size: 1.25rem;
+    font-weight: bold;
+    cursor: pointer;
+    opacity: 0.5;
+    animation: secretPulse 2s ease-in-out infinite;
+    transition: opacity 0.3s, transform 0.15s;
+  }
+
+  .secret:hover {
+    opacity: 1;
+  }
+
+  .secret:active {
+    transform: scale(0.85);
+  }
+
+  .secret__hint,
+  .secret__number {
+    grid-area: 1 / 1;
+    transition: opacity 0.6s;
+  }
+
+  .secret__number {
+    opacity: 0;
+  }
+
+  .secret--found {
+    border-style: solid;
+    opacity: 1;
+    animation: none;
+  }
+
+  .secret--found .secret__hint {
+    opacity: 0;
+  }
+
+  .secret--found .secret__number {
+    opacity: 1;
+  }
+
+  @keyframes secretPulse {
+    50% {
+      transform: scale(1.1);
+    }
+  }
 </style>
+
+<script>
+  const secretButton = document.querySelector(".secret");
+  let clickCount = 0;
+
+  const handleSecretClick = () => {
+    clickCount++;
+    if (clickCount >= 6) {
+      secretButton?.classList.add("secret--found");
+    }
+  };
+
+  secretButton?.addEventListener("click", handleSecretClick);
+</script>
