@@ -5,3 +5,14 @@
       margin: 0 auto;
     }
   }
+
+.hidden-number {
+  color: transparent;
+  cursor: default;
+  transition: color 0.2s;
+
+  &:hover,
+  &.hidden-number--revealed {
+    color: inherit;
+  }
+}

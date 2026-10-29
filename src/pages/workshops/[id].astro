@@ -35,6 +35,16 @@ const { Content } = await render(workshop);
   </div>
 </Markdown>
 
+<script>
+  const revealHiddenNumber = (event: Event) => {
+    (event.currentTarget as HTMLElement).classList.add("hidden-number--revealed");
+  };
+
+  document.querySelectorAll(".hidden-number").forEach((number) => {
+    number.addEventListener("mouseenter", revealHiddenNumber, { once: true });
+  });
+</script>
+
 <style>
   a {
     display: block;
